@@ -2,6 +2,7 @@ package ninja.mspp.core.model.ms;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class DataPoints extends ArrayList<Point> {
 	public double findMaxY(double startX, double endX) {
@@ -90,5 +91,27 @@ public class DataPoints extends ArrayList<Point> {
 			}
 		}
 		return y;
+	}
+	
+	public String toString() {
+		List<String> lines = new ArrayList<String>();
+		for (Point point : this) {
+			lines.add(point.getX() + "," + point.getY());
+		}
+		String data = String.join(";", lines);
+		return data;
+
+	}
+	
+	public static DataPoints fromString(String data) {
+		DataPoints points = new DataPoints();
+		String[] lines = data.split(";");
+		for (String line : lines) {
+			String[] parts = line.split(",");
+			double x = Double.parseDouble(parts[0]);
+			double y = Double.parseDouble(parts[1]);
+			points.add(new Point(x, y));
+		}
+		return points;
 	}
 }
