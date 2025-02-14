@@ -6,6 +6,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -123,6 +124,24 @@ public class MsppManager {
 			}
 		}
 		
+        try {
+            Method orderMethod = clazz.getMethod("order");
+            methods.sort(
+            	Comparator.comparingInt(
+            		m -> {
+            			try {
+            				return (int) orderMethod.invoke(m.getAnnotation());
+            			}
+            			catch (Exception e) {
+            				return 5;
+            			}
+            		}
+            	)
+            );
+        }
+        catch (NoSuchMethodException e) {
+        }
+
 		return methods;
 	}
 

@@ -60,4 +60,12 @@ public class Rect {
 	public double getCenterY() {
 		return ((this.startY + this.endY)/ 2.0);
 	}
+	
+	public boolean contains(double x, double y) {
+		return (this.startX <= x && x <= this.endX && this.startY <= y && y <= this.endY);
+	}
+	
+	public boolean intersects(Rect rect) {
+		return (this.startX <= rect.endX && this.endX >= rect.startX && this.startY <= rect.endY && this.endY >= rect.startY);
+	}
 }
