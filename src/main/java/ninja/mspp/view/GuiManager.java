@@ -115,7 +115,6 @@ public class GuiManager {
 	}
 	
 	public void startWaitingCursor() {
-		System.out.println("fugafuga");
 		this.cyclingAngle = 0;
 		this.lastCyclingTime = 0;
 		GuiManager me = this;

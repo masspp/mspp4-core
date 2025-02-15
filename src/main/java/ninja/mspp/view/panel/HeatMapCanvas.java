@@ -46,7 +46,7 @@ public class HeatMapCanvas extends ProfileCanvas {
 		
 		this.rangeStack = new Stack<Rect>();
 		
-		this.theme = ColorTheme.getThemes().getFirst();
+		this.theme = ColorTheme.getThemes().get(0);
 		this.draw();
 	}
 		

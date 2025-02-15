@@ -30,8 +30,8 @@ public class HeatMap {
 		this.spectra = spectra;
 		
 		if(spectra != null && !spectra.isEmpty()) {
-			double startRt = spectra.getFirst().getRt();
-			double endRt = spectra.getLast().getRt();
+			double startRt = spectra.get(0).getRt();
+			double endRt = spectra.get(spectra.size() - 1).getRt();
 			endRt = Math.max(endRt, startRt + 0.0001);
 			this.rtRange = new Range(startRt, endRt);
 			
