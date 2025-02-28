@@ -28,6 +28,7 @@ public class ProfileCanvas extends CanvasBase {
 	protected static final int TITLE_MARGIN = 5;
 	protected static final int TICK_PARAMETER = 8;
 	protected static final int TICK_LENGTH = 5;
+	protected static final double AUTO_MAX_Y_RATE = 1.30;
 
 	protected DrawingData data;
 	protected DataPoints points;
@@ -340,7 +341,7 @@ public class ProfileCanvas extends CanvasBase {
 				DrawingPoint point = points.get(i);
 				end = Math.max(end, point.getMaxY());
 			}
-			end = end * 1.15;
+			end = end * AUTO_MAX_Y_RATE;
 		} 
 		else {
 			start = this.yRanges.peek().getStart();

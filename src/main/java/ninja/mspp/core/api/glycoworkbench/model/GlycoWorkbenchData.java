@@ -6,10 +6,12 @@ import java.util.List;
 public class GlycoWorkbenchData {
 	private int currentIndex;
 	private List<Scan> scans;
+	private List<Annotation> annotations;
 	
 	public GlycoWorkbenchData() {
 		this.scans = new ArrayList<Scan>();
 		this.currentIndex = 0;
+		this.annotations = new ArrayList<Annotation>();
 	}
 	
 	public GlycoWorkbenchData(List<Scan> scans) {
@@ -42,5 +44,13 @@ public class GlycoWorkbenchData {
 	
 	public void setCurrentIndex(int currentIndex) {
 		this.currentIndex = currentIndex;
+	}
+	
+	public List<Annotation> getAnnotations() {
+		return this.annotations;
+	}
+	
+	public void setAnnotations(List<Annotation> annotations) {
+		this.annotations = annotations;
 	}
 }
