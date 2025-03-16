@@ -2,6 +2,7 @@ package ninja.mspp.core.api.glycoworkbench.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class GlycoWorkbenchData {
 	private String id;
@@ -10,13 +11,20 @@ public class GlycoWorkbenchData {
 	private List<Annotation> annotations;
 	
 	public GlycoWorkbenchData() {
+		this.id = UUID.randomUUID().toString();
 		this.scans = new ArrayList<Scan>();
 		this.currentIndex = 0;
 		this.annotations = new ArrayList<Annotation>();
 	}
-	
-	
-	
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public GlycoWorkbenchData(List<Scan> scans) {
 		this.scans = scans;
 	}
