@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GlycoWorkbenchData {
+	private String id;
 	private int currentIndex;
 	private List<Scan> scans;
 	private List<Annotation> annotations;
@@ -13,6 +14,8 @@ public class GlycoWorkbenchData {
 		this.currentIndex = 0;
 		this.annotations = new ArrayList<Annotation>();
 	}
+	
+	
 	
 	public GlycoWorkbenchData(List<Scan> scans) {
 		this.scans = scans;
