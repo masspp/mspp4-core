@@ -3,6 +3,7 @@ package ninja.mspp.core.api.glycoworkbench.model;
 public class Annotation {
 	private double mass;
 	private double intensity;
+	private String name;
 	private String image;
 	
 	public Annotation() {
@@ -24,6 +25,16 @@ public class Annotation {
 
 	public void setIntensity(double intensity) {
 		this.intensity = intensity;
+	}
+	
+	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getImage() {

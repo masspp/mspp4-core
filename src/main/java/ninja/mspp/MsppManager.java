@@ -1,7 +1,6 @@
 package ninja.mspp;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -22,22 +21,13 @@ import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 
-import javafx.application.Platform;
-import javafx.concurrent.Task;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import ninja.mspp.core.annotation.clazz.Listener;
 import ninja.mspp.core.model.listener.ListenerInfo;
 import ninja.mspp.core.model.listener.ListenerMethod;
 import ninja.mspp.core.model.ms.Chromatogram;
 import ninja.mspp.core.model.ms.Sample;
 import ninja.mspp.core.model.ms.Spectrum;
-import ninja.mspp.core.view.ViewInfo;
-import ninja.mspp.interfaces.Job;
-import ninja.mspp.view.GuiManager;
-import ninja.mspp.view.MainFrame;
+
 
 public class MsppManager {
 	private static MsppManager instance = null;
@@ -49,8 +39,6 @@ public class MsppManager {
 	private Sample activeSample;
 	private Spectrum activeSpectrum;
 	private Chromatogram activeChromatogram;
-	private Stage mainStage;
-	private MainFrame mainFrame;
 	private Preferences preferences;
 	private Properties status;
 	private ResourceBundle config;
@@ -64,8 +52,6 @@ public class MsppManager {
 		this.activeSample = null;
 		this.activeSpectrum = null;
 		this.activeChromatogram = null;
-		this.mainStage = null;
-		this.mainFrame = null;
 		this.preferences = Preferences.userRoot().node("mspp4.1/parameters");
 		this.status = new Properties();
 		this.config = null;
@@ -152,27 +138,7 @@ public class MsppManager {
 			method.invoke(args);
 		}
 	}
-	
-	public <T> ViewInfo<T> createWindow(Class<T> clazz, String fxml) throws IOException {
-		FXMLLoader loader = new FXMLLoader(clazz.getResource(fxml));
-		Parent root = loader.load();
-		T controller = loader.getController();
-		return new ViewInfo<T>(root, controller);
-	}
-	
-	public <T> ViewInfo<T> showDialog(Class<T> clazz, String fxml, String title) throws IOException {
-		ViewInfo<T> info = this.createWindow(clazz, fxml);
 		
-		Stage stage = new Stage();
-		stage.initOwner(this.mainStage);
-		Scene scene = new Scene(info.getWindow());
-		stage.setScene(scene);
-		stage.setTitle(title);
-		stage.show();
-		
-		return info;
-	}
-	
 	public Sample getActiveSample() {
 		return activeSample;
 	}
@@ -195,22 +161,6 @@ public class MsppManager {
 
 	public void setActiveChromatogram(Chromatogram activeChromatogram) {
 		this.activeChromatogram = activeChromatogram;
-	}
-	
-	public Stage getMainStage() {
-		return mainStage;
-	}
-	
-	public void setMainStage(Stage mainStage) {
-		this.mainStage = mainStage;
-	}
-	
-	public MainFrame getMainFrame() {
-		return mainFrame;
-	}
-	
-	public void setMainFrame(MainFrame mainFrame) {
-		this.mainFrame = mainFrame;
 	}
 	
 	public List<Sample> getOpenedSamples() {
@@ -279,54 +229,4 @@ public class MsppManager {
         }
         return MsppManager.instance;
     }
-
-	
-	public void startTask(Job job) throws InterruptedException {
-		GuiManager gui = GuiManager.getInstance();		
-		
-		Task<Object> task = new Task<Object>() {
-			@Override
-			protected Object call() throws Exception {
-				return job.execute();
-			}
-		};
-		task.setOnSucceeded(
-			event -> {
-				try {
-					Object result = task.get();
-					job.onSucceeded(result);
-				}
-				catch(Exception e) {
-					e.printStackTrace();
-				}
-			}
-		);
-				
-		Thread thread = new Thread(task);
-		
-		Thread cursorThread = new Thread() {
-			@Override
-			public void run() {
-				Platform.runLater(
-					() -> {
-						gui.startWaitingCursor();
-					}
-				);
-				thread.start();
-				try {
-					thread.join();
-				}
-				catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				Platform.runLater(
-					() -> {
-						gui.endWaitingCursor();
-					}
-				);
-			}
-		};
-
-		cursorThread.start();
-	}
 }
