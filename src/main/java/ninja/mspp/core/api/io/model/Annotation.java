@@ -1,14 +1,20 @@
-package ninja.mspp.core.api.glycoworkbench.model;
+package ninja.mspp.core.api.io.model;
 
 public class Annotation {
+	private String id;
 	private double mass;
 	private double intensity;
 	private String name;
 	private String image;
 	
 	public Annotation() {
+		this.id = "";
 		this.mass = 0.0;
 		this.image = "";
+	}
+	
+	public String getId() {
+		return id;
 	}
 
 	public double getMass() {
@@ -22,12 +28,14 @@ public class Annotation {
 	public double getIntensity() {
 		return intensity;
 	}
+	
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public void setIntensity(double intensity) {
 		this.intensity = intensity;
 	}
-	
-	
 
 	public String getName() {
 		return name;

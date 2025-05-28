@@ -1,17 +1,9 @@
-package ninja.mspp.core.api.glycoworkbench.model;
+package ninja.mspp.core.api.io.model;
 
 import java.util.List;
 
-import ninja.mspp.core.api.glycoworkbench.model.ms.GlycoWorkbenchSample;
-import ninja.mspp.core.api.glycoworkbench.model.ms.GlycoWorkbenchSpectrum;
-import ninja.mspp.core.model.ms.Chromatogram;
-import ninja.mspp.core.model.ms.DataPoints;
-import ninja.mspp.core.model.ms.Point;
-import ninja.mspp.core.model.ms.Sample;
-import ninja.mspp.core.model.ms.Spectrum;
-import ninja.mspp.core.model.ms.TicChromatogram;
-
 public class Scan {
+	private String id;
 	private Integer msLevel;
 	private Double rt;
 	private Double precursorMz;
@@ -22,9 +14,14 @@ public class Scan {
 	private List<ScanPoint> points; 
 	
 	public Scan() {
+		this.id = null;
 		this.msLevel = null;
 		this.rt = null;
 		this.precursorMz = null;
+	}
+	
+	public String getId() {
+		return id;
 	}
 	
 	public Integer getMsLevel() {
@@ -41,6 +38,10 @@ public class Scan {
 	
 	public List<ScanPoint> getPoints() {
 		return points;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	public void setMsLevel(Integer msLevel) {
@@ -81,29 +82,5 @@ public class Scan {
 	
 	public void setCentroidMode(Boolean centroidMode) {
 		this.centroidMode = centroidMode;
-	}
-	
-	public static Sample createSample(List<Scan> scans) {
-		GlycoWorkbenchSample sample = new GlycoWorkbenchSample();
-		
-		DataPoints ticPoints = new DataPoints();
-		
-		int scanNumber = 0;
-		for(Scan scan : scans) {
-			scanNumber++;
-			Spectrum spectrum = new GlycoWorkbenchSpectrum(sample, scanNumber, scan);
-			sample.getSpectra().add(spectrum);
-			
-			if (spectrum.getMsLevel() == 1 && spectrum.getRt() >= 0.0) {
-				ticPoints.add(new Point(spectrum.getRt(), spectrum.getTic()));
-			}
-		}
-		
-		if(ticPoints.size() > 0) {
-			Chromatogram tic = new TicChromatogram(sample);
-			sample.getChromatograms().add(tic);	
-		}
-
-		return sample;
 	}
 }

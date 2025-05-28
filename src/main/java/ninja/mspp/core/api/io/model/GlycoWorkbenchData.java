@@ -1,4 +1,4 @@
-package ninja.mspp.core.api.glycoworkbench.model;
+package ninja.mspp.core.api.io.model;
 
 import java.util.ArrayList;
 import java.util.List;
