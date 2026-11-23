@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ninja.mspp</groupId>
 	<artifactId>mspp4-core</artifactId>
-	<version>4.0.0</version>
+	<version>1.0.0</version>
 	<name>mspp4</name>
 	<url>https://mspp.ninja/</url>
 
